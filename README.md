@@ -107,3 +107,8 @@ framework7 generate-assets --ui
 
 Love Framework7? Support project by donating or pledging on patreon:
 https://patreon.com/vladimirkharlampidi
+
+## License
+MIT License 2020, mathdroid.
+
+Transitively from the John Hopkins Site, the data may not be used for commercial purposes.
