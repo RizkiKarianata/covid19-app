@@ -1,0 +1,39 @@
+<template>
+  <div class="page no-navbar no-toolbar no-swipeback">
+    <div class="page-content login-screen-content" style="background-color: #4682B4;">
+      <div class="login-screen-title" style="color: #fff; font-size: 30px; font-family: sans-serif;">
+        <strong>
+          Tips Mencegah COVID-19
+        </strong>
+      </div>
+      <div class="block">
+        <center>
+          <img src="static/icons/medicane-2.svg" style="width: 280px;">
+        </center>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+  export default {
+  // Lifecycle Hooks
+  beforeCreate() {
+  // console.log('componentBeforeCreate', this)
+},
+created() {
+  // console.log('componentCreated', this)
+},
+beforeMount() {
+  // console.log('componentBeforeMount', this)
+},
+mounted() {
+  var $this = this;
+  var app = this.$app;
+  var $$ = this.$$;
+  setTimeout(function () {
+    app.dialog.close();
+    app.views.main.router.navigate('/tips-pertama/');          
+  }, 4000);
+},    
+}
+</script>

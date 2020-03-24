@@ -1,0 +1,80 @@
+<template>
+  <div class="page">
+    <div class="navbar no-hairline">
+      <div class="navbar-bg" style="background-color: #4682B4;"></div>
+      <div class="navbar-inner">
+        <div class="left" style="color: white; font-family: goodmorning;">
+          <a href="/provinsi/" class="link">
+            <i class="icon f7-icons if-not-md" style="color: white;">backward</i>
+            <i class="icon material-icons if-md" style="color: white;">arrow_back</i>
+          </a>
+        </div>
+        {{#if user}}
+        <div class="title" style="color: #fff; font-size: 15px; font-style: italic;">{{user.Provinsi}}</div>
+        {{else}}  
+        {{/if}}
+      </div>
+    </div>
+    <div class="page-content" style="background-color: #4682B4;">
+      {{#if user}}
+      <div class="card card-outline">
+        <div class="card-header" style="justify-content: center;">Total Positif</div>
+        <div class="card-content card-content-padding" style="font-size: 50px;" align="center">{{user.Kasus_Posi.toLocaleString()}}</div>
+      </div>
+      <div class="card card-outline">
+        <div class="card-header" style="justify-content: center;">Total Meninggal</div>
+        <div class="card-content card-content-padding" style="font-size: 50px;" align="center">{{user.Kasus_Meni.toLocaleString()}}</div>
+      </div>
+      <div class="card card-outline">
+        <div class="card-header" style="justify-content: center;">Total Sembuh</div>
+        <div class="card-content card-content-padding" style="font-size: 50px;" align="center">{{user.Kasus_Semb.toLocaleString()}}</div>
+      </div>
+      {{else}}  
+      {{/if}}
+    </div>
+  </div>
+</template>
+<script>
+  export default {
+  // Lifecycle Hooks
+  beforeCreate() {
+  // console.log('componentBeforeCreate', this)
+},
+created() {
+  // console.log('componentCreated', this)
+},
+beforeMount() {
+  // console.log('componentBeforeMount', this)
+},
+mounted() {
+  var $this = this;
+  var app = this.$app;
+  var $$ = this.$$;
+},
+beforeDestroy() {
+      // console.log('componentBeforeDestroy', this);
+    },
+    destroyed() {
+      // console.log('componentDestroyed', this);
+    },
+    on: {
+      pageInit: function () {
+        var self = this;
+        var $this = this;
+        var app = this.$app;
+        var $$ = this.$$;
+        var provinsi = this.$route.params.id;
+        var dataJSON = new Array();
+        var d = new Date();
+        app.request.get('https://api.kawalcorona.com/indonesia/provinsi/?fbclid=lwAR2gfnx-6RwdKhNLpH5hM5t3X7I8jd0op8I7sdNuKtSncpa8OwhPXeMuuMc', (user) => {
+          dataJSON = JSON.parse(user);
+          var tampil = dataJSON[provinsi].attributes;
+          console.log("Total", tampil);
+          self.$setState({
+            user: tampil,
+          });
+        });
+      },
+    },     
+  }
+</script>

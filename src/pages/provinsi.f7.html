@@ -1,0 +1,111 @@
+<template>
+  <div class="page">
+    <div class="navbar">
+      <div class="navbar-bg" style="background-color: #4682B4;"></div>
+      <div class="navbar-inner sliding">
+        <div class="left" style="color: white; font-family: goodmorning;">
+          <a href="/beranda/" class="link">
+            <i class="icon f7-icons if-not-md" style="color: white;">backward</i>
+            <i class="icon material-icons if-md" style="color: white;">arrow_back</i>
+          </a>
+        </div>
+        <div class="title" style="color: #fff; font-size: 15px;">Kasus Terbanyak</div>
+        <!-- Large title element -->
+        <div class="subnavbar" style="background-color: #4682B4;">
+          <form data-search-container=".virtual-list" data-search-item="li" data-search-in=".item-title" class="searchbar searchbar-init">
+            <div class="searchbar-inner">
+              <div class="searchbar-input-wrap">
+                <input type="search" placeholder="Search" style="background: white;">
+                <i class="searchbar-icon"></i>
+                <span class="input-clear-button"></span>
+              </div>
+              <span class="searchbar-disable-button if-not-aurora" style="color: #fff;">Cancel</span>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="searchbar-backdrop"></div>
+    <div class="page-content login-screen-content">
+      <div class="list simple-list searchbar-not-found">
+        <ul>
+          <li>Nothing found</li>
+        </ul>
+      </div>
+      <div class="list virtual-list media-list searchbar-found"></div>
+    </div>
+  </div>
+</template>
+<script>
+  export default {
+  // Lifecycle Hooks
+  beforeCreate() {
+  // console.log('componentBeforeCreate', this)
+},
+created() {
+  // console.log('componentCreated', this)
+},
+beforeMount() {
+  // console.log('componentBeforeMount', this)
+},
+mounted() {
+  var $this = this;
+  var app = this.$app;
+  var $$ = this.$$;
+  root: this.$app;
+
+  cargarListaClinicas();
+
+  function cargarListaClinicas() {
+    var items = [];            
+    var dataJSON = new Array();
+      // Dummy items array
+      app.request.get('https://api.kawalcorona.com/indonesia/provinsi/?fbclid=lwAR2gfnx-6RwdKhNLpH5hM5t3X7I8jd0op8I7sdNuKtSncpa8OwhPXeMuuMc', function (data,status) {
+        //$$('.articles');
+        dataJSON = JSON.parse(data);
+        var dataku = dataJSON;
+        console.log(dataku);
+        for(var i = 0; i < dataku.length; i++) {
+          var semuadata = dataku[i].attributes;
+          var provinsi = semuadata.Provinsi;
+          items.push({
+            title: (i + 1) + ". " + provinsi,
+            subtitle: "Info Selengkapnya",
+            index: i
+          });
+        }
+        var virtualList = app.virtualList.create({
+          // List Element
+          el: '.virtual-list',
+          // Pass array with items
+          items: items,
+          // Custom search function for searchbar
+          searchAll: function (query, items) {
+            var found = [];
+            for (var i = 0; i < items.length; i++) {
+              if (items[i].title.toLowerCase().indexOf(query.toLowerCase()) >= 0 || query.trim() === '') found.push(i);
+            }
+            return found; //return array with mathced indexes
+          },
+          // List item Template7 template
+          itemTemplate:
+          '<li class="swipeout">' +
+          '<div class="swipeout-content">' +
+          '<a href = "/detail-provinsi/{{index}}/" class = "item-link item-content">' +
+          '<div class="item-inner">' +
+          '<div class="item-title-row">' +
+          '<div class="item-title" id="nama" name="nama">{{title}}</div>' +
+          '</div>' +
+          '<div class="item-subtitle">{{subtitle}}</div>' +
+          '</div>' +
+          '</a>'+
+          '</div>' +
+          '</li>',
+          // Item height
+          height: app.theme === 'ios' ? 63 : (app.theme === 'md' ? 73 : 46),
+        });
+      });    
+    }
+  },
+}
+</script>

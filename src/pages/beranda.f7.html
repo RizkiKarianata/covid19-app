@@ -1,0 +1,183 @@
+<template>
+  <div class="page">
+    <div class="navbar no-hairline">
+      <div class="navbar-bg" style="background-color: #4682B4;"></div>
+      <div class="navbar-inner">
+        <div class="left" style="color: white; font-family: goodmorning;">
+          <a href="#" class="link icon-only panel-open" data-panel="left">
+            <i class="icon f7-icons if-not-md" style="color: white;">menu</i>
+            <i class="icon material-icons if-md" style="color: white;">menu</i>
+          </a>
+        </div>
+        {{#if created_at}}
+        <div class="title" style="color: #fff; font-size: 15px; font-style: italic;">{{created_at}}</div>
+        {{else}}  
+        {{/if}}
+      </div>
+    </div>
+    <!-- Left panel with cover effect-->
+    <div class="panel panel-left panel-reveal panel-resizable panel-init">
+      <div class="block" style="background-color: #4682B4; margin-top: -30px; height: 118px;">
+        <br>
+        <center>
+          <h3 style="color: #fff; font-size: 30px;">COVID-19</h3>
+        </center>
+      </div>
+      <div class="block" style="
+      height: 100%; 
+      background-color: #4682B4; 
+      margin-top: -35px;">
+      <div class="list">
+        <ul style="border-radius: 20px;">
+          <li>
+            <div class="item-content">
+              <div class="item-media">
+                <i class="icon f7-icons if-not-md">globe</i>
+                <i class="icon material-icons if-md">language</i>
+              </div>
+              <div class="item-inner">
+                <a href="/beranda/" class="panel-close" style="color: black;"> 
+                  <div class="item-title">Dunia</div>
+                </a>
+                <!-- <div class="item-after">CEO</div> -->
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="item-content">
+              <div class="item-media">
+                <i class="icon f7-icons if-not-md">flag</i>
+                <i class="icon material-icons if-md">outlined_flag</i>
+              </div>
+              <div class="item-inner">
+                <a href="/negara/" class="panel-close" style="color: black;"> 
+                  <div class="item-title">Negara</div>
+                </a>
+                <!-- <div class="item-after">CEO</div> -->
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="item-content">
+              <div class="item-media">
+                <i class="icon f7-icons if-not-md">person_crop_circle</i>
+                <i class="icon material-icons if-md">person_outline</i>
+              </div>
+              <div class="item-inner">
+                <a href="/provinsi/" class="panel-close" style="color: black;"> 
+                  <div class="item-title">Provinsi</div>
+                </a>
+                <!-- <div class="item-after">CEO</div> -->
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="item-content">
+              <div class="item-media">
+                <i class="icon f7-icons if-not-md">heart_circle</i>
+                <i class="icon material-icons if-md">favorite_border</i>
+              </div>
+              <div class="item-inner">
+                <a href="/tentang/" class="panel-close" style="color: black;"> 
+                  <div class="item-title">Tentang</div>
+                </a>
+                <!-- <div class="item-after">CEO</div> -->
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="page-content" style="background-color: #4682B4;">
+    {{#if positif}}
+    <div class="card card-outline">
+      <div class="card-header" style="justify-content: center;">{{positif.name}}</div>
+      <div class="card-content card-content-padding" style="font-size: 50px;" align="center">{{positif.value}}</div>
+    </div>
+    {{else}}  
+    {{/if}}
+    {{#if meninggal}}
+    <div class="card card-outline">
+      <div class="card-header" style="justify-content: center;">{{meninggal.name}}</div>
+      <div class="card-content card-content-padding" style="font-size: 50px;" align="center">{{meninggal.value}}</div>
+    </div>
+    {{else}}  
+    {{/if}}
+    {{#if sembuh}}
+    <div class="card card-outline">
+      <div class="card-header" style="justify-content: center;">{{sembuh.name}}</div>
+      <div class="card-content card-content-padding" style="font-size: 50px;" align="center">{{sembuh.value}}</div>
+    </div>
+    {{else}}  
+    {{/if}}
+  </div>
+</div>
+</template>
+<script>
+  export default {
+  // Lifecycle Hooks
+  beforeCreate() {
+  // console.log('componentBeforeCreate', this)
+},
+created() {
+  // console.log('componentCreated', this)
+},
+beforeMount() {
+  // console.log('componentBeforeMount', this)
+},
+mounted() {
+  var $this = this;
+  var app = this.$app;
+  var $$ = this.$$;
+},
+beforeDestroy() {
+      // console.log('componentBeforeDestroy', this);
+    },
+    destroyed() {
+      // console.log('componentDestroyed', this);
+    },
+    on: {
+      pageInit: function () {
+        var self = this;
+        var $this = this;
+        var app = this.$app;
+        var $$ = this.$$;
+        var dataJSON = new Array();
+        var d = new Date();
+        var days = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+        var datestring = days[d.getDay()] + ", " + d.getDate() + "-" + (d.getMonth()+1) + "-" + d.getFullYear();
+        self.$setState({
+          created_at: datestring,
+        });
+        app.request.get('https://api.kawalcorona.com/positif/?fbclid=lwAR2gfnx-6RwdKhNLpH5hM5t3X7I8jd0op8I7sdNuKtSncpa8OwhPXeMuuMc', (user) => {
+          dataJSON = JSON.parse(user);
+          var positif = dataJSON.value;
+          var positif_new = positif.toLocaleString()
+          console.log("Positif", positif_new)
+          self.$setState({
+            positif: dataJSON,
+          });
+        });
+        app.request.get('https://api.kawalcorona.com/meninggal/?fbclid=lwAR2gfnx-6RwdKhNLpH5hM5t3X7I8jd0op8I7sdNuKtSncpa8OwhPXeMuuMc', (user) => {
+          dataJSON = JSON.parse(user);
+          var meninggal = dataJSON.value;
+          var meninggal_new = meninggal.toLocaleString()
+          console.log("Meninggal", meninggal_new)
+          self.$setState({
+            meninggal: dataJSON,
+          });
+        });
+        app.request.get('https://api.kawalcorona.com/sembuh/?fbclid=lwAR2gfnx-6RwdKhNLpH5hM5t3X7I8jd0op8I7sdNuKtSncpa8OwhPXeMuuMc', (user) => {
+          dataJSON = JSON.parse(user);
+          var sembuh = dataJSON.value;
+          var sembuh_new = sembuh.toLocaleString()
+          console.log("Sembuh", sembuh_new)
+          self.$setState({
+            sembuh: dataJSON,
+          });
+        });
+      },
+    },     
+  }
+</script>
