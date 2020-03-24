@@ -109,6 +109,6 @@ Love Framework7? Support project by donating or pledging on patreon:
 https://patreon.com/vladimirkharlampidi
 
 ## License
-MIT License 2020, mathdroid.
+MIT License 2020, Rizki Karianata.
 
-Transitively from the John Hopkins Site, the data may not be used for commercial purposes.
+The data may not be used for commercial purposes.
