@@ -1,7 +1,7 @@
 # Covid-19
 Aplikasi Info Covid-19 Berbasis Mobile yang menggunakan Framework7 berguna  untuk mengetahui info penyebaran kasus Covid-19 di seluruh belahan dunia.
 
-#Usage
+# Usage
 * Install Node.js
 * Buka direktori Covid-19 di Command Prompt
 * Ketik npm start
