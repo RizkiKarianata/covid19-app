@@ -95,6 +95,7 @@ framework7 generate-assets --ui
 
 * [Framework7 Icons Reference](https://framework7.io/icons/)
 * [Community Forum](https://forum.framework7.io)
+* [Aplikasi Info Covid-19](http://bit.ly/2WBNpYG)
 
 ## Support Framework7
 
